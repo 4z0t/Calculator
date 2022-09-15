@@ -136,6 +136,8 @@ namespace Calculator
                 else
                 {
                     Operation op = (Operation)top;
+                    if (op == Operation.Close || op == Operation.Open)
+                        return true;
                     double d1 = nums.Pop();
                     double d2 = nums.Pop();
 
