@@ -11,17 +11,20 @@ namespace Calculator
     {
         public void DisplayChar(char c)
         {
-            throw new NotImplementedException();
+            Console.Write(c);
         }
 
         public void DisplayError(string err)
         {
-            throw new NotImplementedException();
+            Console.Write('\n');
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(err);
+            Console.ResetColor();
         }
 
         public void DisplayResult(string result)
         {
-            throw new NotImplementedException();
+            Console.WriteLine(result);
         }
     }
 }
