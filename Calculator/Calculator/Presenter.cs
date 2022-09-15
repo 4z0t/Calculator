@@ -57,7 +57,10 @@ namespace Calculator
                     isFailed = OnOperatorInput(Operation.Multiply);
                     break;
                 case '\n':
+                    Console.WriteLine("noice");
                     OnEnterInput();
+                    return;
+                case ' ':
                     return;
                 default:
                     isFailed = OnNumberInput(c);

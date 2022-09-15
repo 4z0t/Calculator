@@ -24,6 +24,7 @@ namespace Calculator
 
         public void DisplayResult(string result)
         {
+            Console.Write('\n');
             Console.WriteLine(result);
         }
     }

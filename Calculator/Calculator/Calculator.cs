@@ -20,6 +20,23 @@ namespace Calculator
             _presenter = new Presenter(_view, _model);
         }
 
+        public void Start()
+        {
+            char c;
+            while(true)
+            {
+                var info = Console.ReadKey(true);
+                c = info.KeyChar;
+                bool isEnter = info.Key == ConsoleKey.Enter;
+                if (c == '#') break;
+                if (isEnter)
+                    _presenter.OnEnterInput();
+                else
+                    _presenter.OnCharInput(c);
+
+            }
+        }
+
 
 
 

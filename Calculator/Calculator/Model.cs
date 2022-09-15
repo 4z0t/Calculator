@@ -9,29 +9,148 @@ namespace Calculator
     using Interfaces;
     class Model : IModel
     {
+
+        enum LastInput
+        {
+            Operation,
+            Number,
+            Open,
+            Close,
+        }
+
+        public Model()
+        {
+            _ops = new Stack<Operation>();
+            _res = new Stack<object>();
+        }
+
+        private Stack<Operation> _ops;
+        private string _buff;
+        private LastInput _last;
+        private Stack<object> _res;
+
         public bool AddOperator(Operation op)
         {
-            throw new NotImplementedException();
+            if (_last == LastInput.Operation || _last == LastInput.Open)
+                return true;
+            if (_last == LastInput.Number)
+            {
+                _res.Push(_buff);
+                _buff = "";
+            }
+            if (_ops.Count == 0 || OperationFunctions.GetOperationPriority(op) >= OperationFunctions.GetOperationPriority(_ops.Peek()))
+            {
+                _ops.Push(op);
+            }
+            else
+            {
+                while (_ops.Count != 0 && OperationFunctions.GetOperationPriority(op) < OperationFunctions.GetOperationPriority(_ops.Peek()))
+                {
+                    _res.Push(_ops.Pop());
+                }
+                _ops.Push(op);
+            }
+
+            _last = LastInput.Operation;
+            return false;
         }
 
         public bool AddToNumber(char c)
         {
-            throw new NotImplementedException();
+            if (_last == LastInput.Close)
+                return true;
+            _buff += c;
+            _last = LastInput.Number;
+            return false;
         }
 
         public bool Calculate(out string result)
         {
-            throw new NotImplementedException();
+            if (_last != LastInput.Close && _last != LastInput.Number)
+            {
+                result = "Incorrect input";
+                _Clear();
+                return true;
+            }
+            if (_last == LastInput.Number) _res.Push(_buff);
+            while (_ops.Count != 0) _res.Push(_ops.Pop());
+
+            if (_Process(out double res))
+            {
+                result = "Incorrect input";
+                _Clear();
+                return true;
+            }
+            result = res.ToString();
+            _Clear();
+            return false;
         }
 
         public bool CloseBracket()
         {
-            throw new NotImplementedException();
+            if (_last == LastInput.Open || _last == LastInput.Operation || _ops.Count == 0)
+                return true;
+            if (_last == LastInput.Number)
+            {
+                _res.Push(_buff);
+                _buff = "";
+            }
+            while (_ops.Peek() != Operation.Open)
+            {
+                _res.Push(_ops.Pop());
+            }
+            _ops.Pop();
+            _last = LastInput.Close;
+            return false;
         }
 
         public bool OpenBracket()
         {
-            throw new NotImplementedException();
+            if (_last == LastInput.Close || _last == LastInput.Number)
+                return true;
+            _ops.Push(Operation.Open);
+            _last = LastInput.Open;
+            return false;
+        }
+
+
+        private bool _Process(out double res)
+        {
+            res = 0;
+            Stack<object> reversedRes = new Stack<object>(_res);
+            Stack<double> nums = new Stack<double>();
+
+            object top;
+            while (reversedRes.Count != 0)
+            {
+                top = reversedRes.Pop();
+                if (top is string s)
+                {
+
+                    if (!double.TryParse(s, out double d))
+                    {
+                        return true;
+                    }
+                    nums.Push(d);
+                }
+                else
+                {
+                    Operation op = (Operation)top;
+                    double d1 = nums.Pop();
+                    double d2 = nums.Pop();
+
+                    nums.Push(OperationFunctions.DoOperation(op, d2, d1));
+                }
+            }
+            res = nums.Pop();
+            return false;
+        }
+        private void _Clear()
+        {
+            _buff = "";
+            _last = LastInput.Open;
+            _ops.Clear();
+            _res.Clear();
         }
     }
 }
