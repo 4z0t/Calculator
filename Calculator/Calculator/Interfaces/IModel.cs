@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Calculator.Interfaces
 {
-    interface IModel
+    public interface IModel
     {
 
         bool Calculate(out string result);

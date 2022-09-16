@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Calculator
 {
     using Interfaces;
-    class Calculator
+    public class Calculator
     {
         private IView _view;
         private IPresenter _presenter;
@@ -23,7 +23,7 @@ namespace Calculator
         public void Start()
         {
             char c;
-            while(true)
+            while (true)
             {
                 var info = Console.ReadKey(true);
                 c = info.KeyChar;

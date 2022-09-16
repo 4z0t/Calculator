@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Calculator.Interfaces
 {
-    interface IPresenter
+    public interface IPresenter
     {
 
         void OnCharInput(char c);

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Calculator
 {
     using Interfaces;
-    class View : IView
+    public class View : IView
     {
         public void DisplayChar(char c)
         {

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Calculator
 {
     using Interfaces;
-    class Presenter : IPresenter
+    public class Presenter : IPresenter
     {
         private readonly IView _view;
         private readonly IModel _model;
@@ -60,7 +60,10 @@ namespace Calculator
                     OnEnterInput();
                     return;
                 case ' ':
-                    return;
+                    break;
+                case '.':
+                    isFailed = OnNumberInput(',');
+                    break;
                 default:
                     isFailed = OnNumberInput(c);
                     break;

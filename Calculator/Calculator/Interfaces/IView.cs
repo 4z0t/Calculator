@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Calculator.Interfaces
 {
-    interface IView
+    public interface IView
     {
 
         void DisplayResult(string result);

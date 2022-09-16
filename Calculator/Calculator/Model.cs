@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Calculator
 {
     using Interfaces;
-    class Model : IModel
+    public class Model : IModel
     {
 
         enum LastInput
@@ -95,9 +95,12 @@ namespace Calculator
                 _res.Push(_buff);
                 _buff = "";
             }
+            
             while (_ops.Peek() != Operation.Open)
             {
                 _res.Push(_ops.Pop());
+                //if (_ops.Count == 0)//bugged thing fix
+                //    return true;
             }
             _ops.Pop();
             _last = LastInput.Close;

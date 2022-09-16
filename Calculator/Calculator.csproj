@@ -6,8 +6,4 @@
     <RootNamespace>Calculator</RootNamespace>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Calculator\tests\" />
-  </ItemGroup>
-
 </Project>

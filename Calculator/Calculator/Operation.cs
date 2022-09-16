@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Calculator
 {
-    enum Operation
+    public enum Operation
     {
         Plus,
         Minus,
@@ -38,7 +38,7 @@ namespace Calculator
             return GetOperationPriority(op1) > GetOperationPriority(op2);
         }
 
-        public static double DoOperation(Operation op, double a, double b) 
+        public static double DoOperation(Operation op, double a, double b)
         {
             return op switch
             {
