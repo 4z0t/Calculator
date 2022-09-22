@@ -85,7 +85,7 @@ namespace Calculator
                 }
 
             }
-            OnEnterInput();
+          
 
 
         }
@@ -103,6 +103,7 @@ namespace Calculator
            _input = _input.Remove(_input.Length - 1);
             _view.RemoveChar();
             _Refresh();
+            OnEnterInput();
         }
 
         
@@ -129,10 +130,12 @@ namespace Calculator
             return _model.AddOperator(op);
         }
 
-        public void ProcessString(string s)
+        public string ProcessString(string s)
         {
             _input = s;
             _Refresh();
+            _model.Calculate(out string r);
+            return r;
         }
     }
 

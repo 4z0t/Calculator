@@ -23,7 +23,7 @@ namespace Calculator.Interfaces
 
         bool OnBracketClose();
 
-        void ProcessString(string s);
+        string ProcessString(string s);
 
     }
 }

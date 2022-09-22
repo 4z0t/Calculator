@@ -99,8 +99,11 @@ namespace Calculator
             while (_ops.Peek() != Operation.Open)
             {
                 _res.Push(_ops.Pop());
-                //if (_ops.Count == 0)//bugged thing fix
-                //    return true;
+                if (_ops.Count == 0)
+                {
+                    _Clear();
+                    return true;
+                }
             }
             _ops.Pop();
             _last = LastInput.Close;

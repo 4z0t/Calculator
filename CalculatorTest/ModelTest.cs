@@ -38,18 +38,16 @@ namespace CalculatorTest
         [TestCase("2+",err)]
         [TestCase("(2",err)]
         [TestCase("4+4)",err)]
+        [TestCase("4+4+",err)]
+        [TestCase("4/5*3","2,4")]
         public void Test(string input, string output)
         {
             var view = Mock.Of<IView>();
             var model = new Model();
             var presenter = new Presenter(view, model);
 
-            foreach (char c in input)
-            {
-                presenter.OnCharInput(c);
-            }
-            model.Calculate(out string r);
-            Assert.AreEqual(output, r);
+           
+            Assert.AreEqual(output, presenter.ProcessString(input));
 
 
 

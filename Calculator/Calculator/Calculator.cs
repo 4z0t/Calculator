@@ -23,7 +23,9 @@ namespace Calculator
         public void Start()
         {
             char c;
-            //_presenter.ProcessString("3/4/5");
+            _presenter.ProcessString("(1+2)/(2-1)");
+            _model.Calculate(out string r);
+            Console.WriteLine(r);
             while (true)
             {
                 var info = Console.ReadKey(true);
