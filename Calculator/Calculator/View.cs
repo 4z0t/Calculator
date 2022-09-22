@@ -32,12 +32,12 @@ namespace Calculator
             UpdateCursor();
         }
 
-        public void DisplayError(string err)
+        public void DisplayError()
         {
             Console.SetCursorPosition(0, _top + 1);
             _ClearLine();
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine(err);
+            Console.WriteLine("Incorrect Input");
             Console.ResetColor();
             Console.SetCursorPosition(_left, _top);
         }

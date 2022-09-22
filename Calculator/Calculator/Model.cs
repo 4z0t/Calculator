@@ -64,11 +64,11 @@ namespace Calculator
             return false;
         }
 
-        public bool Calculate(out string result)
+        public bool Calculate(out double result)
         {
             if (_last != LastInput.Close && _last != LastInput.Number)
             {
-                result = "Incorrect input";
+                result = 0;
                 _Clear();
                 return true;
             }
@@ -77,11 +77,11 @@ namespace Calculator
 
             if (_Process(out double res))
             {
-                result = "Incorrect input";
+                result = 0;
                 _Clear();
                 return true;
             }
-            result = res.ToString();
+            result = res;
             _Clear();
             return false;
         }

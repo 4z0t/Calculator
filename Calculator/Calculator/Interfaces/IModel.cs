@@ -9,7 +9,7 @@ namespace Calculator.Interfaces
     public interface IModel
     {
 
-        bool Calculate(out string result);
+        bool Calculate(out double result);
 
         bool CloseBracket();
 

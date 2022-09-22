@@ -13,7 +13,7 @@ namespace Calculator.Interfaces
 
         void DisplayChar(char c);
 
-        void DisplayError(string err);
+        void DisplayError();
 
         void RemoveChar();
 

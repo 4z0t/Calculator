@@ -80,12 +80,12 @@ namespace Calculator
                 if (isFailed)
                 {
                     _model.Clear();
-                    _view.DisplayError("error");
+                    _view.DisplayError();
                     return;
                 }
 
             }
-          
+
 
 
         }
@@ -95,28 +95,29 @@ namespace Calculator
             _input += c;
             _view.DisplayChar(c);
             _Refresh();
+            OnEnterInput();
         }
 
         public void OnBackspace()
         {
             if (_input.Length == 0) return;
-           _input = _input.Remove(_input.Length - 1);
+            _input = _input.Remove(_input.Length - 1);
             _view.RemoveChar();
             _Refresh();
             OnEnterInput();
         }
 
-        
+
 
         public void OnEnterInput()
         {
-            if (_model.Calculate(out string res))
+            if (_model.Calculate(out double res))
             {
-                _view.DisplayError(res);
+                _view.DisplayError();
             }
             else
             {
-                _view.DisplayResult(res);
+                _view.DisplayResult(res.ToString());
             }
         }
 
@@ -130,12 +131,12 @@ namespace Calculator
             return _model.AddOperator(op);
         }
 
-        public string ProcessString(string s)
+        public (double, bool) ProcessString(string s)
         {
             _input = s;
             _Refresh();
-            _model.Calculate(out string r);
-            return r;
+            bool err = _model.Calculate(out double r);
+            return (r, err);
         }
     }
 
