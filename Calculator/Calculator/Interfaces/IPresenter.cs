@@ -13,6 +13,8 @@ namespace Calculator.Interfaces
 
         bool OnOperatorInput(Operation op);
 
+        void OnBackspace();
+
         void OnEnterInput();
 
         bool OnNumberInput(char c);
@@ -20,6 +22,8 @@ namespace Calculator.Interfaces
         bool OnBracketOpen();
 
         bool OnBracketClose();
+
+        void ProcessString(string s);
 
     }
 }

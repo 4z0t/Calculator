@@ -9,23 +9,51 @@ namespace Calculator
     using Interfaces;
     public class View : IView
     {
+       
+        private int _left, _top;
+        public View()
+        {
+            UpdateCursor();
+        }
+
+        public void UpdateCursor()
+        {
+            (_left, _top) = Console.GetCursorPosition();
+        }
         public void DisplayChar(char c)
         {
             Console.Write(c);
+            UpdateCursor();
+        }
+
+        public void RemoveChar()
+        {
+            Console.Write("\b \b");
+            UpdateCursor();
         }
 
         public void DisplayError(string err)
         {
-            Console.Write('\n');
+            Console.SetCursorPosition(0, _top + 1);
+            _ClearLine();
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine(err);
             Console.ResetColor();
+            Console.SetCursorPosition(_left, _top);
         }
 
         public void DisplayResult(string result)
         {
-            Console.Write('\n');
+            Console.SetCursorPosition(0, _top + 1);
+            _ClearLine();
             Console.WriteLine(result);
+            Console.SetCursorPosition(_left, _top);
+        }
+
+        private void _ClearLine()
+        {
+            Console.Write(new string(' ', Console.WindowWidth));
+            Console.SetCursorPosition(0, _top + 1);
         }
     }
 }

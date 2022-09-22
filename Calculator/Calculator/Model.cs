@@ -73,6 +73,18 @@ namespace Calculator
                 return true;
             }
             if (_last == LastInput.Number) _res.Push(_buff);
+            _res = new Stack<object>(_res);
+            if (!(_res.Peek() is string))
+            {
+                if ((Operation)_res.Peek() == Operation.Open)
+                {
+                    result = "Incorrect input";
+                    _Clear();
+                    return true;
+
+                }
+            }
+            _ops = new Stack<Operation>(_ops);
             while (_ops.Count != 0) _res.Push(_ops.Pop());
 
             if (_Process(out double res))
@@ -95,7 +107,7 @@ namespace Calculator
                 _res.Push(_buff);
                 _buff = "";
             }
-            
+
             while (_ops.Peek() != Operation.Open)
             {
                 _res.Push(_ops.Pop());
@@ -141,15 +153,18 @@ namespace Calculator
                     Operation op = (Operation)top;
                     if (op == Operation.Close || op == Operation.Open)
                         return true;
+
                     double d1 = nums.Pop();
                     double d2 = nums.Pop();
 
-                    nums.Push(OperationFunctions.DoOperation(op, d2, d1));
+                    nums.Push(OperationFunctions.DoOperation(op, d1, d2));
                 }
             }
             res = nums.Pop();
             return false;
         }
+
+        public void Clear() => _Clear();
         private void _Clear()
         {
             _buff = "";

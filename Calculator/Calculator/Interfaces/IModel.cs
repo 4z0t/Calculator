@@ -19,6 +19,7 @@ namespace Calculator.Interfaces
 
         bool AddOperator(Operation op);
 
+        void Clear();
 
 
     }

@@ -12,6 +12,7 @@ namespace Calculator
     {
         private readonly IView _view;
         private readonly IModel _model;
+        private string _input = "";
 
         public Presenter(IView view, IModel model)
         {
@@ -32,47 +33,76 @@ namespace Calculator
             return _model.OpenBracket();
         }
 
-        public void OnCharInput(char c)
+        void _Refresh()
         {
-            bool isFailed = false;
-            switch (c)
+            foreach (char c in _input)
             {
 
-                case '(':
-                    isFailed = OnBracketOpen();
-                    break;
-                case ')':
-                    isFailed = OnBracketClose();
-                    break;
-                case '+':
-                    isFailed = OnOperatorInput(Operation.Plus);
-                    break;
-                case '-':
-                    isFailed = OnOperatorInput(Operation.Minus);
-                    break;
-                case '/':
-                    isFailed = OnOperatorInput(Operation.Divide);
-                    break;
-                case '*':
-                    isFailed = OnOperatorInput(Operation.Multiply);
-                    break;
-                case '\n':
-                    OnEnterInput();
+                bool isFailed = false;
+                switch (c)
+                {
+
+                    case '(':
+                        isFailed = OnBracketOpen();
+                        break;
+                    case ')':
+                        isFailed = OnBracketClose();
+                        break;
+                    case '+':
+                        isFailed = OnOperatorInput(Operation.Plus);
+                        break;
+                    case '-':
+                        isFailed = OnOperatorInput(Operation.Minus);
+                        break;
+                    case '/':
+                        isFailed = OnOperatorInput(Operation.Divide);
+                        break;
+                    case '*':
+                        isFailed = OnOperatorInput(Operation.Multiply);
+                        break;
+                    case '\n':
+                        OnEnterInput();
+                        return;
+                    case ' ':
+                        break;
+                    case '.':
+                        isFailed = OnNumberInput(',');
+                        break;
+                    default:
+                        isFailed = OnNumberInput(c);
+                        break;
+                }
+
+
+                if (isFailed)
+                {
+                    _model.Clear();
+                    _view.DisplayError("error");
                     return;
-                case ' ':
-                    break;
-                case '.':
-                    isFailed = OnNumberInput(',');
-                    break;
-                default:
-                    isFailed = OnNumberInput(c);
-                    break;
+                }
+
             }
+            OnEnterInput();
 
 
-            if (!isFailed)
-                _view.DisplayChar(c);
         }
+
+        public void OnCharInput(char c)
+        {
+            _input += c;
+            _view.DisplayChar(c);
+            _Refresh();
+        }
+
+        public void OnBackspace()
+        {
+            if (_input.Length == 0) return;
+           _input = _input.Remove(_input.Length - 1);
+            _view.RemoveChar();
+            _Refresh();
+        }
+
+        
 
         public void OnEnterInput()
         {
@@ -94,6 +124,12 @@ namespace Calculator
         public bool OnOperatorInput(Operation op)
         {
             return _model.AddOperator(op);
+        }
+
+        public void ProcessString(string s)
+        {
+            _input = s;
+            _Refresh();
         }
     }
 

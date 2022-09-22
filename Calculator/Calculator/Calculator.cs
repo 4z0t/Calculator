@@ -23,14 +23,16 @@ namespace Calculator
         public void Start()
         {
             char c;
+            //_presenter.ProcessString("3/4/5");
             while (true)
             {
                 var info = Console.ReadKey(true);
                 c = info.KeyChar;
-                bool isEnter = info.Key == ConsoleKey.Enter;
+                
+                bool isBackspace = info.Key == ConsoleKey.Backspace;
                 if (c == '#') break;
-                if (isEnter)
-                    _presenter.OnEnterInput();
+                if (isBackspace)
+                    _presenter.OnBackspace();
                 else
                     _presenter.OnCharInput(c);
 

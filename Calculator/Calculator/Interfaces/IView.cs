@@ -15,6 +15,10 @@ namespace Calculator.Interfaces
 
         void DisplayError(string err);
 
+        void RemoveChar();
+
+
+
         
     }
 }
