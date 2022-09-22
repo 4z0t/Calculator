@@ -60,6 +60,9 @@ namespace Calculator
                     case '*':
                         isFailed = OnOperatorInput(Operation.Multiply);
                         break;
+                    case '^':
+                        isFailed = OnOperatorInput(Operation.Power);
+                        break;
                     case '\n':
                         OnEnterInput();
                         return;

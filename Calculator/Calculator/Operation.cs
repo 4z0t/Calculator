@@ -14,6 +14,7 @@ namespace Calculator
         Multiply,
         Open,
         Close,
+        Power,
     }
 
     static class OperationFunctions
@@ -29,6 +30,7 @@ namespace Calculator
                 Operation.Minus => 1,
                 Operation.Open => 0,
                 Operation.Close => 0,
+                Operation.Power => 3,
                 _ => throw new ArgumentException("Unknow operation")
             };
         }
@@ -46,6 +48,7 @@ namespace Calculator
                 Operation.Multiply => a * b,
                 Operation.Plus => a + b,
                 Operation.Minus => a - b,
+                Operation.Power => Math.Pow(a, b),
                 _ => throw new ArgumentException("Illegal operation"),
             };
         }
