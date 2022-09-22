@@ -38,7 +38,7 @@ namespace Calculator
                 _res.Push(_buff);
                 _buff = "";
             }
-            if (_ops.Count == 0 || OperationFunctions.GetOperationPriority(op) >= OperationFunctions.GetOperationPriority(_ops.Peek()))
+            if (_ops.Count == 0 || OperationFunctions.GetOperationPriority(op) > OperationFunctions.GetOperationPriority(_ops.Peek()))
             {
                 _ops.Push(op);
             }
@@ -73,18 +73,6 @@ namespace Calculator
                 return true;
             }
             if (_last == LastInput.Number) _res.Push(_buff);
-            _res = new Stack<object>(_res);
-            if (!(_res.Peek() is string))
-            {
-                if ((Operation)_res.Peek() == Operation.Open)
-                {
-                    result = "Incorrect input";
-                    _Clear();
-                    return true;
-
-                }
-            }
-            _ops = new Stack<Operation>(_ops);
             while (_ops.Count != 0) _res.Push(_ops.Pop());
 
             if (_Process(out double res))
@@ -157,7 +145,7 @@ namespace Calculator
                     double d1 = nums.Pop();
                     double d2 = nums.Pop();
 
-                    nums.Push(OperationFunctions.DoOperation(op, d1, d2));
+                    nums.Push(OperationFunctions.DoOperation(op, d2, d1));
                 }
             }
             res = nums.Pop();
