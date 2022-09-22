@@ -44,7 +44,7 @@ namespace Calculator
             }
             else
             {
-                while (_ops.Count != 0 && OperationFunctions.GetOperationPriority(op) < OperationFunctions.GetOperationPriority(_ops.Peek()))
+                while (_ops.Count != 0 && OperationFunctions.GetOperationPriority(op) <= OperationFunctions.GetOperationPriority(_ops.Peek()))
                 {
                     _res.Push(_ops.Pop());
                 }
