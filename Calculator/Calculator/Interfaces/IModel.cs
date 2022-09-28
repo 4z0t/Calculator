@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Calculator.Interfaces
 {
-    interface IModel
+    public interface IModel
     {
 
-        bool Calculate(out string result);
+        bool Calculate(out double result);
 
         bool CloseBracket();
 
@@ -19,6 +19,7 @@ namespace Calculator.Interfaces
 
         bool AddOperator(Operation op);
 
+        void Clear();
 
 
     }

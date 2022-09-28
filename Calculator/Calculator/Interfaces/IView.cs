@@ -6,14 +6,18 @@ using System.Threading.Tasks;
 
 namespace Calculator.Interfaces
 {
-    interface IView
+    public interface IView
     {
 
         void DisplayResult(string result);
 
         void DisplayChar(char c);
 
-        void DisplayError(string err);
+        void DisplayError();
+
+        void RemoveChar();
+
+
 
         
     }

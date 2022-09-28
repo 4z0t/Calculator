@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 
 namespace Calculator.Interfaces
 {
-    interface IPresenter
+    public interface IPresenter
     {
 
         void OnCharInput(char c);
 
         bool OnOperatorInput(Operation op);
+
+        void OnBackspace();
 
         void OnEnterInput();
 
@@ -20,6 +22,8 @@ namespace Calculator.Interfaces
         bool OnBracketOpen();
 
         bool OnBracketClose();
+
+        (double, bool) ProcessString(string s);
 
     }
 }

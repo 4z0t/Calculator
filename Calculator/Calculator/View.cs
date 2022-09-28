@@ -7,21 +7,53 @@ using System.Threading.Tasks;
 namespace Calculator
 {
     using Interfaces;
-    class View : IView
+    public class View : IView
     {
-        public void DisplayChar(char c)
+       
+        private int _left, _top;
+        public View()
         {
-            throw new NotImplementedException();
+            UpdateCursor();
         }
 
-        public void DisplayError(string err)
+        public void UpdateCursor()
         {
-            throw new NotImplementedException();
+            (_left, _top) = Console.GetCursorPosition();
+        }
+        public void DisplayChar(char c)
+        {
+            Console.Write(c);
+            UpdateCursor();
+        }
+
+        public void RemoveChar()
+        {
+            Console.Write("\b \b");
+            UpdateCursor();
+        }
+
+        public void DisplayError()
+        {
+            Console.SetCursorPosition(0, _top + 1);
+            _ClearLine();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Incorrect Input");
+            Console.ResetColor();
+            Console.SetCursorPosition(_left, _top);
         }
 
         public void DisplayResult(string result)
         {
-            throw new NotImplementedException();
+            Console.SetCursorPosition(0, _top + 1);
+            _ClearLine();
+            Console.WriteLine(result);
+            Console.SetCursorPosition(_left, _top);
+        }
+
+        private void _ClearLine()
+        {
+            Console.Write(new string(' ', Console.WindowWidth));
+            Console.SetCursorPosition(0, _top + 1);
         }
     }
 }
