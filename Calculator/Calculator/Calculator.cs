@@ -23,12 +23,12 @@ namespace Calculator
         public void Start()
         {
             char c;
-            
+
             while (true)
             {
                 var info = Console.ReadKey(true);
                 c = info.KeyChar;
-                
+
                 bool isBackspace = info.Key == ConsoleKey.Backspace;
                 if (c == '#') break;
                 if (isBackspace)

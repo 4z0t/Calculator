@@ -31,7 +31,11 @@ namespace Calculator
 
         public bool AddOperator(Operation op)
         {
-            if (_last == LastInput.Operation || _last == LastInput.Open)
+            if (_last == LastInput.Open && op == Operation.Minus)
+            {
+                AddToNumber('0');
+            }
+            if (_last == LastInput.Operation)
                 return true;
             if (_last == LastInput.Number)
             {
@@ -146,9 +150,11 @@ namespace Calculator
                         return true;
 
                     double d1 = nums.Pop();
+                    if (nums.Count == 0) return true;
                     double d2 = nums.Pop();
-
-                    nums.Push(OperationFunctions.DoOperation(op, d2, d1));
+                    double r = OperationFunctions.DoOperation(op, d2, d1);
+                    if (double.IsInfinity(r) || double.IsNaN(r)) return true;
+                    nums.Push(r);
                 }
             }
             res = nums.Pop();
