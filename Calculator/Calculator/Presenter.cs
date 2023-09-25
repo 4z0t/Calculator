@@ -67,6 +67,7 @@ namespace Calculator
                         OnEnterInput();
                         return;
                     case ' ':
+                    case '\t':
                         break;
                     case '.':
                         isFailed = OnNumberInput(',');
@@ -92,6 +93,7 @@ namespace Calculator
 
         public void OnCharInput(char c)
         {
+            if (c == ' ' || c == '\t') return;
             _input += c;
             _view.DisplayChar(c);
             _Refresh();
