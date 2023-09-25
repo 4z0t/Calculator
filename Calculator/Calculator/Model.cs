@@ -11,6 +11,26 @@ namespace Calculator
 
     public class Model : IModel
     {
+        interface IFunction
+        {
+            double Call(List<double> args);
+        }
+
+        class LogFunction : IFunction
+        {
+            public double Call(List<double> args)
+            {
+                if (args.Count != 2)
+                {
+                    throw new ArgumentException(string.Format("Function Log: expected 2 arguments, got %d", args.Count));
+                }
+                double a = args[0];
+                double b = args[1];
+                return Math.Log(a, b);
+            }
+        }
+
+
 
         class StringBuffer
         {
@@ -50,6 +70,8 @@ namespace Calculator
             Number,
             Open,
             Close,
+            Comma,
+            Function,
         }
 
         public Model()
@@ -58,15 +80,26 @@ namespace Calculator
             _ops = new Stack<Operation>();
             _res = new Stack<object>();
             _buff = new StringBuffer();
+            _func = new StringBuffer();
         }
+
+        static private Dictionary<string, IFunction> FUNCTIONS = new Dictionary<string, IFunction>
+        {
+            {"log", new LogFunction() },
+        };
 
         private Stack<Operation> _ops;
         private StringBuffer _buff;
+        private StringBuffer _func;
         private LastInput _last;
         private Stack<object> _res;
 
         public bool AddOperator(Operation op)
         {
+            if (_last == LastInput.Function)
+            {
+                return true;
+            }
             if (_last == LastInput.Open && op == Operation.Minus)
             {
                 AddToNumber('0');
@@ -100,6 +133,15 @@ namespace Calculator
                 return true;
             _buff.Append(c);
             _last = LastInput.Number;
+            return false;
+        }
+
+        public bool AddSymbol(char c)
+        {
+            if (_last == LastInput.Close || _last == LastInput.Number)
+                return true;
+            _func.Append(c);
+            _last = LastInput.Function;
             return false;
         }
 
@@ -147,11 +189,24 @@ namespace Calculator
             }
             _ops.Pop();
             _last = LastInput.Close;
+
             return false;
         }
 
         public bool OpenBracket()
         {
+            if (_last == LastInput.Function)
+            {
+                if (!FUNCTIONS.ContainsKey(_func.ToString()))
+                {
+                    return true;
+                }
+                var func = FUNCTIONS[_func.Flush()];
+
+                _res.Push(func);
+                _ops.Push(Operation.Function);
+            }
+            else
             if (_last == LastInput.Close || _last == LastInput.Number)
                 return true;
             _ops.Push(Operation.Open);
@@ -203,9 +258,11 @@ namespace Calculator
         private void _Clear()
         {
             _buff.Clear();
+            _func.Clear();
             _last = LastInput.Open;
             _ops.Clear();
             _res.Clear();
         }
+
     }
 }

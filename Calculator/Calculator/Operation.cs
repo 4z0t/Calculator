@@ -15,6 +15,8 @@ namespace Calculator
         Open,
         Close,
         Power,
+        Comma,
+        Function
     }
 
     static class OperationFunctions
@@ -31,6 +33,7 @@ namespace Calculator
                 Operation.Open => 0,
                 Operation.Close => 0,
                 Operation.Power => 3,
+                Operation.Function => 4,
                 _ => throw new ArgumentException("Unknow operation")
             };
         }

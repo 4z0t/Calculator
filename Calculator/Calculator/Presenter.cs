@@ -60,6 +60,9 @@ namespace Calculator
                     case '*':
                         isFailed = OnOperatorInput(Operation.Multiply);
                         break;
+                    case ',':
+                        isFailed = OnOperatorInput(Operation.Comma);
+                        break;
                     case '^':
                         isFailed = OnOperatorInput(Operation.Power);
                         break;
@@ -72,8 +75,20 @@ namespace Calculator
                     case '.':
                         isFailed = OnNumberInput(',');
                         break;
-                    default:
+                    case '0':
+                    case '1':
+                    case '2':
+                    case '3':
+                    case '4':
+                    case '5':
+                    case '6':
+                    case '7':
+                    case '8':
+                    case '9':
                         isFailed = OnNumberInput(c);
+                        break;
+                    default:
+                        isFailed = OnSymbolInput(c);
                         break;
                 }
 
@@ -94,8 +109,11 @@ namespace Calculator
         public void OnCharInput(char c)
         {
             if (c == ' ' || c == '\t') return;
-            _input += c;
-            _view.DisplayChar(c);
+            if (c != '\n')
+            {
+                _input += c;
+                _view.DisplayChar(c);
+            }
             _Refresh();
             OnEnterInput();
         }
@@ -121,6 +139,10 @@ namespace Calculator
             {
                 _view.DisplayResult(res.ToString());
             }
+        }
+        public bool OnSymbolInput(char c)
+        {
+            return _model.AddSymbol(c);
         }
 
         public bool OnNumberInput(char c)

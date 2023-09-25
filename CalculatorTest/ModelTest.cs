@@ -29,7 +29,7 @@ namespace CalculatorTest
         [TestCase("1/2", 0.5)]
         [TestCase("0.5", 0.5)]
         [TestCase(".5", 0.5)]
-        [TestCase("0.5+9,5", 0.5 + 9.5)]
+        [TestCase("0.5+9.5", 0.5 + 9.5)]
         [TestCase("2/1", 2)]
         [TestCase("-(-1)", 1)]
         [TestCase("(1+2)*3", 9)]

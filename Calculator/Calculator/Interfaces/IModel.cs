@@ -16,6 +16,7 @@ namespace Calculator.Interfaces
         bool OpenBracket();
 
         bool AddToNumber(char c);
+        bool AddSymbol(char c);
 
         bool AddOperator(Operation op);
 
