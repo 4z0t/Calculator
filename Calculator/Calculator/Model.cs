@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 namespace Calculator
 {
     using Interfaces;
+    using System.Collections;
+
     public class Model : IModel
     {
 
@@ -52,6 +54,7 @@ namespace Calculator
 
         public Model()
         {
+            _last = LastInput.Open;
             _ops = new Stack<Operation>();
             _res = new Stack<object>();
             _buff = new StringBuffer();
@@ -108,8 +111,10 @@ namespace Calculator
                 _Clear();
                 return true;
             }
-            if (_last == LastInput.Number) _res.Push(_buff.ToString());
-            while (_ops.Count != 0) _res.Push(_ops.Pop());
+            if (_last == LastInput.Number)
+                _res.Push(_buff.ToString());
+            while (_ops.Count != 0)
+                _res.Push(_ops.Pop());
 
             if (_Process(out double res))
             {
