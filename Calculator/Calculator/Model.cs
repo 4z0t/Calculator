@@ -10,6 +10,38 @@ namespace Calculator
     public class Model : IModel
     {
 
+        class StringBuffer
+        {
+            public StringBuffer()
+            {
+                _buff = new StringBuilder();
+            }
+            public string Flush()
+            {
+                string s = _buff.ToString();
+                _buff.Clear();
+                return s;
+            }
+
+            public void Clear()
+            {
+                _buff.Clear();
+            }
+
+            public void Append(char c)
+            {
+                _buff.Append(c);
+            }
+
+            public override string ToString()
+            {
+                return _buff.ToString();
+            }
+
+            private StringBuilder _buff;
+        }
+
+
         enum LastInput
         {
             Operation,
@@ -22,10 +54,11 @@ namespace Calculator
         {
             _ops = new Stack<Operation>();
             _res = new Stack<object>();
+            _buff = new StringBuffer();
         }
 
         private Stack<Operation> _ops;
-        private string _buff;
+        private StringBuffer _buff;
         private LastInput _last;
         private Stack<object> _res;
 
@@ -39,8 +72,7 @@ namespace Calculator
                 return true;
             if (_last == LastInput.Number)
             {
-                _res.Push(_buff);
-                _buff = "";
+                _res.Push(_buff.Flush());
             }
             if (_ops.Count == 0 || OperationFunctions.GetOperationPriority(op) > OperationFunctions.GetOperationPriority(_ops.Peek()))
             {
@@ -63,7 +95,7 @@ namespace Calculator
         {
             if (_last == LastInput.Close)
                 return true;
-            _buff += c;
+            _buff.Append(c);
             _last = LastInput.Number;
             return false;
         }
@@ -76,7 +108,7 @@ namespace Calculator
                 _Clear();
                 return true;
             }
-            if (_last == LastInput.Number) _res.Push(_buff);
+            if (_last == LastInput.Number) _res.Push(_buff.ToString());
             while (_ops.Count != 0) _res.Push(_ops.Pop());
 
             if (_Process(out double res))
@@ -96,8 +128,7 @@ namespace Calculator
                 return true;
             if (_last == LastInput.Number)
             {
-                _res.Push(_buff);
-                _buff = "";
+                _res.Push(_buff.Flush());
             }
 
             while (_ops.Peek() != Operation.Open)
@@ -161,10 +192,12 @@ namespace Calculator
             return false;
         }
 
+
+
         public void Clear() => _Clear();
         private void _Clear()
         {
-            _buff = "";
+            _buff.Clear();
             _last = LastInput.Open;
             _ops.Clear();
             _res.Clear();
